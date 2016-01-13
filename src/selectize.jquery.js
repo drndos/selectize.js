@@ -7,6 +7,7 @@ $.fn.selectize = function(settings_user) {
 	var field_optgroup       = settings.optgroupField;
 	var field_optgroup_label = settings.optgroupLabelField;
 	var field_optgroup_value = settings.optgroupValueField;
+	var field_optgroup_parent_field = settings.optgroupParentField;
 
 	/**
 	 * Initializes selectize from a <input type="text"> element.
@@ -57,8 +58,10 @@ $.fn.selectize = function(settings_user) {
 			return null;
 		};
 
-		var addOption = function($option, group) {
+		var addOption = function($option) {
+			var group;
 			$option = $($option);
+			group = $option.attr('data-parentid');
 
 			var value = hash_key($option.attr('value'));
 			if (!value && !settings.allowEmptyOption) return;
@@ -95,7 +98,7 @@ $.fn.selectize = function(settings_user) {
 		};
 
 		var addGroup = function($optgroup) {
-			var i, n, id, optgroup, $options;
+			var i, n, id, optgroup, $options, $option_groups;
 
 			$optgroup = $($optgroup);
 			id = $optgroup.attr('label');
@@ -104,12 +107,10 @@ $.fn.selectize = function(settings_user) {
 				optgroup = readData($optgroup) || {};
 				optgroup[field_optgroup_label] = id;
 				optgroup[field_optgroup_value] = id;
+				if($optgroup.attr('data-parentid')) {
+					optgroup[field_optgroup_parent_field] = $optgroup.attr('data-parentid');
+				}
 				settings_element.optgroups.push(optgroup);
-			}
-
-			$options = $('option', $optgroup);
-			for (i = 0, n = $options.length; i < n; i++) {
-				addOption($options[i], id);
 			}
 		};
 

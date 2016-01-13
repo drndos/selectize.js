@@ -1025,7 +1025,7 @@ $.extend(Selectize.prototype, {
 	 * @param {boolean} triggerDropdown
 	 */
 	refreshOptions: function(triggerDropdown) {
-		var i, j, k, n, groups, groups_order, option, option_html, optgroup, optgroups, html, html_children, has_create_option;
+		var i, j, k, n, groups, groups_order, option, option_html, optgroup, optgroups, html, html_children, has_create_option, parent, root_optgroups, html_optgroup, root_optgroups_order, broke;
 		var $active, $active_before, $create;
 
 		if (typeof triggerDropdown === 'undefined') {
@@ -1064,6 +1064,7 @@ $.extend(Selectize.prototype, {
 					groups_order.push(optgroup);
 				}
 				groups[optgroup].appendChild(option_html);
+
 			}
 		}
 
@@ -1078,22 +1079,62 @@ $.extend(Selectize.prototype, {
 
 		// render optgroup headers & join groups
 		html = document.createDocumentFragment();
+		root_optgroups={};
+		root_optgroups_order=[];
 		for (i = 0, n = groups_order.length; i < n; i++) {
 			optgroup = groups_order[i];
 			if (self.optgroups.hasOwnProperty(optgroup) && groups[optgroup].childNodes.length) {
 				// render the optgroup header and options within it,
 				// then pass it to the wrapper template
+
 				html_children = document.createDocumentFragment();
 				html_children.appendChild(self.render('optgroup_header', self.optgroups[optgroup]));
 				html_children.appendChild(groups[optgroup]);
 
-				html.appendChild(self.render('optgroup', $.extend({}, self.optgroups[optgroup], {
+				html_optgroup=self.render('optgroup', $.extend({}, self.optgroups[optgroup], {
 					html: domToString(html_children),
 					dom:  html_children
-				})));
+				}));
+
+				parent = self.optgroups[optgroup][self.settings.optgroupParentField];
+
+				broke=false;
+				while(parent){
+					if(root_optgroups.hasOwnProperty(parent))
+					{
+						root_optgroups[parent].appendChild(html_optgroup);
+						broke=true;
+						break;
+					}
+					html_children = document.createDocumentFragment();
+					html_children.appendChild(self.render('optgroup_header', self.optgroups[parent]));
+					html_children.appendChild(html_optgroup);
+
+					html_optgroup=self.render('optgroup', $.extend({}, self.optgroups[optgroup], {
+						html: domToString(html_children),
+						dom:  html_children
+					}));
+
+					parent = self.optgroups[self.optgroups[parent][self.settings.optgroupValueField]][self.settings.optgroupParentField];
+				}
+				if(!broke) {
+					if (parent) {
+						root_optgroups[parent] = html_optgroup;
+						root_optgroups_order.push(html_optgroup);
+					}else{
+						root_optgroups[optgroup] = html_optgroup;
+						root_optgroups_order.push(html_optgroup);
+					}
+				}
+
 			} else {
-				html.appendChild(groups[optgroup]);
+				//Dont know if you can do this right now or after the fact! add this to root
+				root_optgroups_order.push(groups[optgroup]);
 			}
+		}
+
+		for(i=0, n=root_optgroups_order.length; i<n; i++){
+			html.appendChild(root_optgroups_order[i]);
 		}
 
 		$dropdown_content.html(html);
