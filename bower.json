@@ -6,7 +6,7 @@
 	"readmeFilename": "README.md",
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/drndos/selectize.js.git"
+		"url": "https://github.com/drndos/selectize.js"
 	},
 	"main": [
 		"dist/css/selectize.css",

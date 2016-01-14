@@ -17,7 +17,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/drndos/selectize.js.git"
+    "url": "https://github.com/drndos/selectize.js"
   },
   "dependencies": {
     "microplugin": "0.0.3",
