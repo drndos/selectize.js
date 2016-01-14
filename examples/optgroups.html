@@ -27,6 +27,7 @@
 		.demo-animals .scientific::after {
 			content: ')';
 		}
+    
 		</style>
 	</head>
     <body>
@@ -44,11 +45,11 @@
         <div class="control-group" id="select-car-group">
 					<select type="text" id="select-car2" placeholder="Select cars..." multiple="multiple">
             <optgroup label="Rodičovské práva a povinnosti"></optgroup>
-            <optgroup data-parentid="Rodičovské práva a povinnosti" label="napomenutie uložené"></optgroup>
-            <option data-parentid="napomenutie uložené" value="matke">matke</option>
-            <option data-parentid="napomenutie uložené" value="napomenutie uložené">napomenutie uložené (spolu)</option>
             <option data-parentid="Rodičovské práva a povinnosti" value="Rodičovské práva a povinnosti (spolu)">Rodičovské práva a povinnosti (spolu)</option>
-          </select>
+            <optgroup data-parentid="Rodičovské práva a povinnosti" label="napomenutie uložené"></optgroup>
+            <option data-parentid="napomenutie uložené" value="napomenutie uložené">napomenutie uložené (spolu)</option>
+            <option data-parentid="napomenutie uložené" value="matke">matke</option>
+                      </select>
 				</div>
 				<script>
 					$("#select-car2").selectize({

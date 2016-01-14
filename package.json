@@ -1,5 +1,5 @@
 {
-  "name": "selectize",
+  "name": "selectize-ed",
   "keywords": [
     "select",
     "ui",
@@ -12,12 +12,12 @@
   ],
   "main": "dist/js/selectize.js",
   "description": "Selectize is a jQuery-based custom <select> UI control. Useful for tagging, contact lists, country selectors, etc.",
-  "version": "0.12.1",
+  "version": "0.13.0",
   "author": "Brian Reavis <brian@thirdroute.com>",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/brianreavis/selectize.js.git"
+    "url": "git://github.com/drndos/selectize.js.git"
   },
   "dependencies": {
     "microplugin": "0.0.3",
