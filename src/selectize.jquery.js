@@ -98,14 +98,15 @@ $.fn.selectize = function(settings_user) {
 		};
 
 		var addGroup = function($optgroup) {
-			var i, n, id, optgroup, $options, $option_groups;
+			var i, n, id, label, optgroup, $options, $option_groups;
 
 			$optgroup = $($optgroup);
-			id = $optgroup.attr('label');
+			label = $optgroup.attr('label');
+			id = $optgroup.attr('id');
 
-			if (id) {
+			if (label && id) {
 				optgroup = readData($optgroup) || {};
-				optgroup[field_optgroup_label] = id;
+				optgroup[field_optgroup_label] = label;
 				optgroup[field_optgroup_value] = id;
 				if($optgroup.attr('data-parentid')) {
 					optgroup[field_optgroup_parent_field] = $optgroup.attr('data-parentid');
